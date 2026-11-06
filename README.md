@@ -10,6 +10,13 @@ inside a letter — and it still round-trips **every** input byte-for-byte.
 
 Two artifacts ship here: the **64K (v1.0.0)** and the legacy **32K (v0.1.0)**.
 
+> **Status: research artifact.** This is a documented tokenization experiment, published so
+> the design, measurements and failure modes can be inspected and reproduced. It is **not a
+> production-ready component**: a single held-out corpus, no downstream ablation, no human
+> evaluation. The protocol, its threats to validity and what production use would still
+> require are in **[METHODS.md](METHODS.md)**. If you quote a number from here, quote its
+> scope with it.
+
 ---
 
 ## Headline results
@@ -50,6 +57,30 @@ On the Tamil-dominant subset (≥95% Tamil script, 15,700 documents) the 64K rea
   indentation round-trip. (The 32K v1 dropped a leading space — fixed in v1.0.0.)
 - **Small and cheap to load:** 108 ms load, **+70 MB RSS** for the whole 63,995-piece model;
   streaming 100 MB grows RSS by **2.8 MB**.
+
+## How we got here
+
+The method is one move with a lot of care around it: **change the alphabet, then train
+normally.** Each of the 312 canonical Tamil akshara is mapped to a single Private Use Area
+code point before the trainer sees any text, so a subword algorithm cannot cut a symbol in
+half; the decoder reverses the mapping. Everything else is standard Unigram with byte
+fallback.
+
+| stage | what was done |
+|---|---|
+| 1. Corpus | Tamil web (Sangraha, IndicCorpV2, Wikipedia), English (FineWeb-Edu), Tanglish (Dakshina), ~5% code — sources and licenses in [`NOTICE`](NOTICE) |
+| 2. Akshara table | built programmatically from Unicode categories: 25 consonants + 12 vowels + aytham, each with pulli/sign forms → **312 unique units**, `U+E000…U+E137` |
+| 3. Normalizer | NFC, then 312 `Replace` ops applied **longest-first** so `ம` cannot match before `மி` |
+| 4. Model | `Unigram`, `initial_alphabet` = the 312 PUA units, `max_piece_length=16`, `Metaspace(prepend_scheme="never")` |
+| 5. Closing the alphabet | 256 `<0xNN>` byte pieces appended post-training (Unigram does not emit them), plus 10 whitespace-run tokens |
+| 6. Iteration | 32K v1 shipped, then failed its own whitespace test (`prepend_scheme="always"` ate a leading space) → 64K v2 fixed it and cut fertility 1.853 → 1.693 |
+| 7. Evaluation | 20,000 unseen FineWeb-2 `tam_Taml` documents, ratio-of-sums fertility, document-level bootstrap CIs, cut-letter and round-trip audits |
+| 8. Stress | 12 suites, 12,156 assertions: 312 units atomic in NFC *and* NFD, all of `U+0B80–U+0BFF`, malformed Tamil, 9,000 fuzz strings |
+| 9. Performance | load time, per-domain throughput, batch, 200k-char document, 100 MB streaming RSS, id memory |
+| 10. Packaging | hash every file, `* -text` in `.gitattributes` so no clone can silently alter an artifact |
+
+Full protocol, metric definitions, and the ten threats to validity:
+**[METHODS.md](METHODS.md)**.
 
 ## The two tokenizers
 
@@ -162,6 +193,7 @@ Benchmark scripts add the repo root to `sys.path`; run them from the repository 
 ## Repository layout
 
 ```
+METHODS.md                      research protocol, metrics, threats to validity
 merzal-tamil-tokenizer/         64K v1.0.0 package (Hugging Face-ready)
   tokenizer.json                the artifact, 63,995 pieces
   tokenizer_config.json         PreTrainedTokenizerFast, model_max_length=32768

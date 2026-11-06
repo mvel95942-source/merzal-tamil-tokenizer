@@ -11,6 +11,7 @@ tags:
 - sentencepiece
 - akshara
 - byte-fallback
+- research
 - merzal
 ---
 
@@ -28,6 +29,13 @@ before segmentation, so a learned piece cannot land mid-letter; the decoder maps
 back. Anything outside the Tamil block falls back to a 256-piece byte alphabet, so no
 input is ever unknown.
 
+> **Research artifact — not production-ready.** This tokenizer is published as a
+> documented experiment. Its numbers come from one held-out corpus, it was not evaluated
+> on a downstream task, and it has known collision and offset limitations listed below.
+> Before using it beyond evaluation, read the protocol, metrics and ten threats to
+> validity in
+> [METHODS.md](https://github.com/mvel95942-source/merzal-tamil-tokenizer/blob/main/METHODS.md).
+
 **Highlights:** **1.693 tokens/word** on 20,000 unseen Tamil documents — **28% fewer
 than Gemma-4**, 4.4× fewer than GPT-4o · **0.04% cut letters** (1 in 2,551) vs **12–41.5%**
 for the big production tokenizers · **100% exact round-trip** · loads in 108 ms with
@@ -38,6 +46,26 @@ for the big production tokenizers · **100% exact round-trip** · loads in 108 m
 - **License:** Apache-2.0 (tokenizer code) with data attribution in `NOTICE`
 - **Version:** 1.0.0
 - **SHA256:** `861ebf3409db01b3964686bbbf3a71f0b721cd88b571bcbdb3d67196397a25d8`
+
+## Method
+
+1. Build the akshara table from Unicode categories: 25 consonants + 12 vowels + aytham,
+   each with pulli and dependent-sign forms → **312 unique units**, mapped to
+   `U+E000…U+E137`.
+2. Normalize with NFC, then 312 `Replace` operations applied **longest-first**, so a bare
+   consonant can never match before a consonant-plus-sign.
+3. Train `Unigram` with `initial_alphabet` = the 312 PUA units, `max_piece_length=16`,
+   `Metaspace(prepend_scheme="never")` and `Digits(individual_digits=True)`.
+4. Append 256 `<0xNN>` byte pieces after training (Unigram does not emit them) and 10
+   whitespace-run tokens, then reverse the PUA mapping in the decoder.
+5. Evaluate on 20,000 unseen FineWeb-2 `tam_Taml` documents with ratio-of-sums fertility,
+   document-level bootstrap CIs, a cut-letter audit and an exact round-trip audit.
+6. Stress the artifact with 12 suites / 12,156 assertions over the full Tamil block,
+   malformed input, 9,000 fuzz strings, whitespace and emoji.
+
+Both the 32K and 64K were trained this way; the 64K fixes the 32K's
+`prepend_scheme="always"` leading-space defect and needs 8.6% fewer tokens for the same
+text. Full protocol: [METHODS.md](https://github.com/mvel95942-source/merzal-tamil-tokenizer/blob/main/METHODS.md).
 
 ## Quick start
 

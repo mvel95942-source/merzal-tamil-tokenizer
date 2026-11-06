@@ -9,6 +9,7 @@ tags:
 - tokenizer
 - unigram
 - byte-fallback
+- research
 - legacy
 - merzal
 ---
@@ -19,6 +20,12 @@ The first-generation 32,000-piece tokenizer. It is the tokenizer used to pack th
 Tamil pretraining run, and it is kept here for reproducibility. **It is superseded by the
 64K Merzal Tamil Tokenizer**, which is smaller on text, whitespace-exact and otherwise
 identical in design.
+
+> **Research artifact — legacy, not production-ready.** Kept to make a 2026 experiment
+> reproducible. It has a known whitespace defect (below), it predates the 64K, and its
+> numbers come from one held-out corpus with no downstream evaluation. Protocol and
+> threats to validity:
+> [METHODS.md](https://github.com/mvel95942-source/merzal-tamil-tokenizer/blob/main/METHODS.md).
 
 - **Vocab:** 32,000 · **Model:** Unigram, byte fallback, NFC
 - **Version:** 0.1.0 (legacy) · **License:** Apache-2.0

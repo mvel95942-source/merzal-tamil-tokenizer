@@ -5,6 +5,9 @@ package also carries its own `CHANGES.md` / `metadata.json` next to the artifact
 
 ## Repository — 2026-11-06
 
+- Framed the release as a **research artifact**: added [`METHODS.md`](METHODS.md) with the
+  full protocol, metric definitions, threats to validity and production-readiness gap, and a
+  status banner in every README and model card.
 - Published both artifacts: the 64K tokenizer (v1.0.0) and the legacy 32K tokenizer
   (v0.1.0), with full benchmark evidence and reproduction scripts.
 - Added the independent held-out validation on FineWeb-2 `tam_Taml` / `test`
