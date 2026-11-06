@@ -10,6 +10,10 @@ inside a letter — and it still round-trips **every** input byte-for-byte.
 
 Two artifacts ship here: the **64K (v1.0.0)** and the legacy **32K (v0.1.0)**.
 
+**Hugging Face:** [Vel04/merzal-tamil-tokenizer](https://huggingface.co/Vel04/merzal-tamil-tokenizer)
+(64K) · [Vel04/merzal-tamil-tokenizer-32k](https://huggingface.co/Vel04/merzal-tamil-tokenizer-32k)
+(legacy) — both public, both hash-verified against this repository.
+
 > **Status: research artifact.** This is a documented tokenization experiment, published so
 > the design, measurements and failure modes can be inspected and reproduced. It is **not a
 > production-ready component**: a single held-out corpus, no downstream ablation, no human
@@ -103,7 +107,10 @@ standalone tokenizer release.
 ```python
 from transformers import AutoTokenizer
 
-tok = AutoTokenizer.from_pretrained("merzal-tamil-tokenizer")
+# from the Hub
+tok = AutoTokenizer.from_pretrained("Vel04/merzal-tamil-tokenizer")
+# or from a clone
+# tok = AutoTokenizer.from_pretrained("merzal-tamil-tokenizer")
 
 text = "வணக்கம் நண்பா, how are you? 123"
 ids = tok(text)["input_ids"]

@@ -8,10 +8,10 @@ Everything in this folder is reproducible from the repo:
 | Step | Command |
 |---|---|
 | Rebuild package + zip + checksums | `python scripts/package_tokenizer_release.py` |
-| Verify files and hashes | `python merzal-tamil-tokenizer/publish.py --repo YOUR-ORG/merzal-tamil-tokenizer --check` |
-| Dry-run upload (default) | `python merzal-tamil-tokenizer/publish.py --repo YOUR-ORG/merzal-tamil-tokenizer` |
-| Private upload | `python merzal-tamil-tokenizer/publish.py --repo YOUR-ORG/merzal-tamil-tokenizer --upload` |
-| Public upload | `python merzal-tamil-tokenizer/publish.py --repo YOUR-ORG/merzal-tamil-tokenizer --upload --public` |
+| Verify files and hashes | `python merzal-tamil-tokenizer/publish.py --repo Vel04/merzal-tamil-tokenizer --check` |
+| Dry-run upload (default) | `python merzal-tamil-tokenizer/publish.py --repo Vel04/merzal-tamil-tokenizer` |
+| Private upload | `python merzal-tamil-tokenizer/publish.py --repo Vel04/merzal-tamil-tokenizer --upload` |
+| Public upload | `python merzal-tamil-tokenizer/publish.py --repo Vel04/merzal-tamil-tokenizer --upload --public` |
 
 ## 1. Pre-flight (30 minutes, once)
 
@@ -43,9 +43,9 @@ for `ours-tok64k`.
 
 ```powershell
 $env:HF_HUB_DISABLE_SYMLINKS_WARNING = "1"
-python merzal-tamil-tokenizer/publish.py --repo YOUR-ORG/merzal-tamil-tokenizer --check
-python merzal-tamil-tokenizer/publish.py --repo YOUR-ORG/merzal-tamil-tokenizer          # dry run
-python merzal-tamil-tokenizer/publish.py --repo YOUR-ORG/merzal-tamil-tokenizer --upload # private
+python merzal-tamil-tokenizer/publish.py --repo Vel04/merzal-tamil-tokenizer --check
+python merzal-tamil-tokenizer/publish.py --repo Vel04/merzal-tamil-tokenizer          # dry run
+python merzal-tamil-tokenizer/publish.py --repo Vel04/merzal-tamil-tokenizer --upload # private
 ```
 
 Then open the repo and confirm: repo is **private**, the model card renders, the file
@@ -58,7 +58,7 @@ list has `tokenizer.json`, `tokenizer_config.json`, `special_tokens_map.json`, `
 pip install -U tokenizers transformers
 python - <<'PY'
 from transformers import AutoTokenizer
-t = AutoTokenizer.from_pretrained("YOUR-ORG/merzal-tamil-tokenizer")
+t = AutoTokenizer.from_pretrained("Vel04/merzal-tamil-tokenizer")
 s = "வணக்கம் நண்பா, how are you? 123"
 ids = t(s)["input_ids"]
 print(ids[:12], t.decode(ids))
@@ -81,7 +81,7 @@ Only after the private repo has been loaded by one other machine and the card ha
 read end to end.
 
 ```powershell
-python merzal-tamil-tokenizer/publish.py --repo YOUR-ORG/merzal-tamil-tokenizer --upload --public
+python merzal-tamil-tokenizer/publish.py --repo Vel04/merzal-tamil-tokenizer --upload --public
 ```
 
 ## 5. Announcement — claims that are backed by evidence
@@ -111,7 +111,7 @@ Suggested one-liner (fill the speed figure from the bench report):
 ## 6. Rollback
 
 - Make the repo private again in the HF UI, or
-- `python -c "from huggingface_hub import HfApi; HfApi().delete_repo('YOUR-ORG/merzal-tamil-tokenizer', repo_type='model')"`
+- `python -c "from huggingface_hub import HfApi; HfApi().delete_repo('Vel04/merzal-tamil-tokenizer', repo_type='model')"`
   (irreversible; prefer flipping to private).
 
 ## 7. Known gaps (fine for v1.0.0, fix before a big campaign)

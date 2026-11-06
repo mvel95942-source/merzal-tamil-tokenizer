@@ -72,7 +72,7 @@ text. Full protocol: [METHODS.md](https://github.com/mvel95942-source/merzal-tam
 ```python
 from transformers import AutoTokenizer
 
-tok = AutoTokenizer.from_pretrained("YOUR-ORG/merzal-tamil-tokenizer")
+tok = AutoTokenizer.from_pretrained("Vel04/merzal-tamil-tokenizer")
 text = "வணக்கம் நண்பா, how are you? 123"
 ids = tok(text)["input_ids"]
 print(ids)

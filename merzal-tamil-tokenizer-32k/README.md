@@ -65,7 +65,7 @@ this path. If you need exact leading whitespace, use the 64K release.
 ```python
 from transformers import AutoTokenizer
 
-tok = AutoTokenizer.from_pretrained("YOUR-ORG/merzal-tamil-tokenizer-32k")
+tok = AutoTokenizer.from_pretrained("Vel04/merzal-tamil-tokenizer-32k")
 ids = tok("தமிழ் மொழி")["input_ids"]
 print(tok.decode(ids))
 ```
