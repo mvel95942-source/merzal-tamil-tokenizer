@@ -1,0 +1,56 @@
+{
+  "name": "merzal-tamil-tokenizer",
+  "version": "1.0.0",
+  "release_date": "2026-11-06",
+  "artifact": "tokenizer.json",
+  "sha256": "861ebf3409db01b3964686bbbf3a71f0b721cd88b571bcbdb3d67196397a25d8",
+  "vocab_size": 63995,
+  "model_vocab_size": 63990,
+  "added_tokens": 42,
+  "special_tokens": 32,
+  "byte_fallback": true,
+  "model_type": "Unigram",
+  "max_length": 32768,
+  "license": "Apache-2.0",
+  "languages": [
+    "ta",
+    "en",
+    "tanglish"
+  ],
+  "normalizer": "NFC + 1 code point per Tamil akshara (312 units, PUA U+E000+)",
+  "pre_tokenizer": "Metaspace(prepend_scheme=never, split) + Digits(individual_digits)",
+  "training_sources": [
+    "ai4bharat/sangraha (verified/tam, CC-BY-4.0)",
+    "ai4bharat/IndicCorpV2 (ta, CC0-1.0)",
+    "wikimedia/wikipedia (20231101.ta, CC-BY-SA-3.0)",
+    "HuggingFaceFW/fineweb-edu (sample-10BT, ODC-By)",
+    "google/dakshina (ta romanized, CC-BY-SA-4.0)",
+    "codeparrot/github-code-clean (Apache-2.0, ~5% code)"
+  ],
+  "hard_test": {
+    "verdict": "PASS (with warnings)",
+    "checks": 12156,
+    "errors": 0,
+    "warnings": 5
+  },
+  "heldout_validation": {
+    "dataset": "HuggingFaceFW/fineweb-2",
+    "config": "tam_Taml",
+    "split": "test",
+    "docs": 20000,
+    "tokens_per_word": 1.6929,
+    "tokens_per_word_ci95": [
+      1.6896,
+      1.6963
+    ],
+    "cut_letter_rate": 0.000392,
+    "roundtrip_exact": 1.0
+  },
+  "performance": {
+    "encode_mb_s_tamil": 0.98,
+    "decode_mb_s_tamil": 1.891,
+    "encode_tok_s_tamil": 67723,
+    "load_rss_delta_mb": 70.0,
+    "streaming_peak_delta_mb": 2.8
+  }
+}

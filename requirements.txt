@@ -1,0 +1,6 @@
+tokenizers>=0.22
+transformers>=4.40
+numpy>=1.26
+psutil>=5.9
+pyarrow>=15
+huggingface_hub>=0.23

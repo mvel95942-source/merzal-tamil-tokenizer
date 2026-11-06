@@ -1,0 +1,3 @@
+# Preserve bytes exactly: the artifacts are content-addressed by SHA256SUMS, so any
+# end-of-line normalisation would invalidate the published hashes.
+* -text

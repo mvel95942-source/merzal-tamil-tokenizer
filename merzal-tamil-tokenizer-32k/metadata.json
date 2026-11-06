@@ -1,0 +1,29 @@
+{
+  "name": "merzal-tamil-tokenizer-32k",
+  "version": "0.1.0",
+  "status": "legacy",
+  "superseded_by": "merzal-tamil-tokenizer (64K, v1.0.0)",
+  "release_date": "2026-11-06",
+  "artifact": "tokenizer.json",
+  "sha256": "bbedd9c0e6b993f1b9b2505a8991219bae3539ad44794e92e86a3c1e0506ee07",
+  "vocab_size": 32000,
+  "special_tokens": 6,
+  "byte_fallback": true,
+  "model_type": "Unigram",
+  "max_length": 32768,
+  "license": "Apache-2.0",
+  "known_defect": "Metaspace(prepend_scheme='always') drops leading whitespace",
+  "heldout_validation": {
+    "dataset": "HuggingFaceFW/fineweb-2",
+    "config": "tam_Taml",
+    "split": "test",
+    "docs": 20000,
+    "tokens_per_word": 1.8533,
+    "tokens_per_word_ci95": [
+      1.8495,
+      1.8571
+    ],
+    "cut_letter_rate": 0.000468,
+    "roundtrip_exact": 1.0
+  }
+}

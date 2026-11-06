@@ -1,0 +1,44 @@
+Merzal Tamil Tokenizer (v1.0.0, 64K vocabulary)
+Copyright 2026 Merzal
+
+This package contains a trained SentencePiece-style Unigram tokenizer model
+(`tokenizer.json`) for Tamil, Tanglish and English. It contains no source text
+or corpus data: only the learned vocabulary and merge/score tables are shipped.
+The tokenizer software is licensed under the Apache License 2.0 (see LICENSE).
+
+TRAINING DATA ATTRIBUTION
+
+The tokenizer was trained on token statistics from the following datasets. No
+documents from them are redistributed in this package.
+
+| Dataset | Provider | License | Use |
+|---|---|---|---|
+| ai4bharat/sangraha (verified/tam) | AI4Bharat, IIT Madras | CC BY 4.0 | Tamil pretraining text |
+| ai4bharat/IndicCorpV2 (ta) | AI4Bharat, IIT Madras | CC0 1.0 | Tamil pretraining text |
+| wikimedia/wikipedia (20231101.ta) | Wikimedia Foundation | CC BY-SA 3.0 | Tamil pretraining text |
+| HuggingFaceFW/fineweb-edu (sample-10BT) | Hugging Face | ODC-By 1.0 | English pretraining text |
+| google/dakshina (ta, romanized) | Google Research | CC BY-SA 4.0 | Tanglish (romanized Tamil) |
+| codeparrot/github-code-clean | Hugging Face | Apache 2.0 | Light code coverage (~5%) |
+
+Attribution: Tamil Wikipedia content is by Wikipedia contributors and is used
+under CC BY-SA 3.0. Dakshina is by Google Research (Roark et al., LREC 2020)
+and is used under CC BY-SA 4.0. Sangraha and IndicCorpV2 are by AI4Bharat.
+FineWeb-Edu is by Hugging Face. GitHub Code Clean is by Hugging Face, derived
+from public GitHub repositories.
+
+EVALUATION DATA (NOT TRAINED ON)
+
+Held-out validation used HuggingFaceFW/fineweb-2, config `tam_Taml`, split
+`test` (Hugging Face, ODC-By 1.0). This corpus is disjoint from every training
+source above and was never seen during tokenizer training.
+
+LEGAL NOTE
+
+A tokenizer vocabulary is a statistical artefact, not a reproduction of the
+source documents. Nothing in this package is a derivative copy of the corpora;
+the CC BY-SA and ODC-By obligations are met by this attribution notice. If you
+redistribute this package, keep this NOTICE with it.
+
+Merzal is not affiliated with or endorsed by AI4Bharat, Google, Hugging Face or
+the Wikimedia Foundation. The tokenizer is provided AS IS, without warranty of
+any kind (Apache License 2.0, section 7).
